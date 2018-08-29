@@ -24,8 +24,8 @@ public static class MeshGenerator
 
                 if (x < width - 1 && y < height - 1)
                 {
-                    meshData.AddTriangle(vertexIndex, vertexIndex + width + 1, vertexIndex + width);
-                    meshData.AddTriangle(vertexIndex + width + 1, vertexIndex, vertexIndex + 1);
+                    meshData.AddTriangle(vertexIndex, vertexIndex + verticesPerlin + 1, vertexIndex + verticesPerlin);
+                    meshData.AddTriangle(vertexIndex + verticesPerlin + 1, vertexIndex, vertexIndex + 1);
                 }
 
                 vertexIndex++;
