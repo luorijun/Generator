@@ -10,7 +10,7 @@ public static class MeshGenerator
         float topLeftZ = (height - 1) / 2f;
 
         int meshSamplificationIncrement = (levelOfDetail == 0) ? 1 : levelOfDetail * 2;
-        int verticesPerlin = (width - 1) / meshSamplificationIncrement+1;
+        int verticesPerlin = (width - 1) / meshSamplificationIncrement + 1;
 
         MeshData meshData = new MeshData(verticesPerlin, verticesPerlin);
         int vertexIndex = 0;
