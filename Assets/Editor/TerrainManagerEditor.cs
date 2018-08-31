@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 using UnityEditor;
 
-[CustomEditor(typeof(TerrainManager))]
-public class TerrainManagerEditor : Editor
+[CustomEditor(typeof(LandManager))]
+public class LandManagerEditor : Editor
 {
     public override void OnInspectorGUI()
     {
-        TerrainManager manager = (TerrainManager)target;
+        LandManager manager = (LandManager)target;
 
         if (DrawDefaultInspector())
         {
