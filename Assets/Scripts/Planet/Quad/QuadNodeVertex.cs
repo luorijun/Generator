@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Game.Terrain
 {
+    [System.Serializable]
     public struct QuadNodeVertex
     {
         public int Index;

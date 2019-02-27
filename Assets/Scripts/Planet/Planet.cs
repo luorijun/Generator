@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlanetManager : MonoBehaviour {
+public class Planet : MonoBehaviour {
 
     public int resolution;
 

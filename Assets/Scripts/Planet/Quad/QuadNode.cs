@@ -4,15 +4,19 @@ using UnityEngine;
 
 namespace Game.Terrain
 {
+    [System.Serializable]
     public class QuadNode
     {
         public NodeType Type;
 
-        private QuadNode parent;
-        private QuadTree tree;
 
+        [SerializeField]
         private int depth;
+        [SerializeField]
         private int size;
+
+        private QuadTree tree;
+        private QuadNode parent;
 
         #region Vertex
         public QuadNodeVertex VertexTopLeft;
@@ -26,6 +30,7 @@ namespace Game.Terrain
         public QuadNodeVertex VertexBottomRight;
         #endregion
 
+        private bool hasChild = false;
         #region Child
         public QuadNode ChildTopLeft;
         public QuadNode ChildTopRight;
@@ -69,6 +74,11 @@ namespace Game.Terrain
                     VertexTopRight = parent.VertexTop;
                     VertexBottomLeft = parent.VertexLeft;
                     VertexBottomRight = parent.VertexCenter;
+
+                    VertexTopLeft.Activated = true;
+                    VertexTopRight.Activated = true;
+                    VertexBottomLeft.Activated = true;
+                    VertexBottomRight.Activated = true;
                     break;
 
                 case NodeType.TopRight:
@@ -76,6 +86,11 @@ namespace Game.Terrain
                     VertexTopRight = parent.VertexTopRight;
                     VertexBottomLeft = parent.VertexCenter;
                     VertexBottomRight = parent.VertexRight;
+
+                    VertexTopLeft.Activated = true;
+                    VertexTopRight.Activated = true;
+                    VertexBottomLeft.Activated = true;
+                    VertexBottomRight.Activated = true;
                     break;
 
                 case NodeType.BottomLeft:
@@ -83,6 +98,11 @@ namespace Game.Terrain
                     VertexTopRight = parent.VertexCenter;
                     VertexBottomLeft = parent.VertexBottomLeft;
                     VertexBottomRight = parent.VertexBottom;
+
+                    VertexTopLeft.Activated = true;
+                    VertexTopRight.Activated = true;
+                    VertexBottomLeft.Activated = true;
+                    VertexBottomRight.Activated = true;
                     break;
 
                 case NodeType.BottomRight:
@@ -90,6 +110,11 @@ namespace Game.Terrain
                     VertexTopRight = parent.VertexRight;
                     VertexBottomLeft = parent.VertexBottom;
                     VertexBottomRight = parent.VertexBottomRight;
+
+                    VertexTopLeft.Activated = true;
+                    VertexTopRight.Activated = true;
+                    VertexBottomLeft.Activated = true;
+                    VertexBottomRight.Activated = true;
                     break;
 
                 default:
@@ -121,7 +146,7 @@ namespace Game.Terrain
 
             VertexLeft = new QuadNodeVertex
             {
-                Index = VertexTopLeft.Index + size * (size / 2),
+                Index = VertexTopLeft.Index + tree.MaxSize * (size / 2),
                 Activated = false
             };
 
@@ -151,10 +176,15 @@ namespace Game.Terrain
         }
         private void AddChildren()
         {
-            ChildTopLeft = new QuadNode(NodeType.TopLeft, depth + 1, tree, this);
-            ChildTopRight = new QuadNode(NodeType.TopRight, depth + 1, tree, this);
-            ChildBottomLeft = new QuadNode(NodeType.BottomLeft, depth + 1, tree, this);
-            ChildBottomRight = new QuadNode(NodeType.BottomRight, depth + 1, tree, this);
+            if (depth<tree.MaxDepth)
+            {
+                ChildTopLeft = new QuadNode(NodeType.TopLeft, depth + 1, tree, this);
+                ChildTopRight = new QuadNode(NodeType.TopRight, depth + 1, tree, this);
+                ChildBottomLeft = new QuadNode(NodeType.BottomLeft, depth + 1, tree, this);
+                ChildBottomRight = new QuadNode(NodeType.BottomRight, depth + 1, tree, this);
+
+                hasChild = true;
+            }
         }
 
         private bool Sub()
@@ -165,6 +195,15 @@ namespace Game.Terrain
         public List<int> Update()
         {
             var triagnles = new List<int>();
+
+            if (tree.Dis>(Vector3.Distance(Camera.main.transform.position, tree.vertices[VertexCenter.Index])/size) && hasChild)
+            {
+                triagnles.AddRange(ChildTopLeft.Update());
+                triagnles.AddRange(ChildTopRight.Update());
+                triagnles.AddRange(ChildBottomLeft.Update());
+                triagnles.AddRange(ChildBottomRight.Update());
+                return triagnles;
+            }
 
             triagnles.Add(VertexCenter.Index);
             triagnles.Add(VertexTopLeft.Index);

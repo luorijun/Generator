@@ -1,0 +1,41 @@
+{
+    "Type": 1,
+    "depth": 2,
+    "size": 5,
+    "VertexTopLeft": {
+        "Index": 0,
+        "Activated": true
+    },
+    "VertexTop": {
+        "Index": 2,
+        "Activated": false
+    },
+    "VertexTopRight": {
+        "Index": 4,
+        "Activated": true
+    },
+    "VertexLeft": {
+        "Index": 18,
+        "Activated": false
+    },
+    "VertexCenter": {
+        "Index": 20,
+        "Activated": false
+    },
+    "VertexRight": {
+        "Index": 22,
+        "Activated": false
+    },
+    "VertexBottomLeft": {
+        "Index": 36,
+        "Activated": true
+    },
+    "VertexBottom": {
+        "Index": 38,
+        "Activated": false
+    },
+    "VertexBottomRight": {
+        "Index": 40,
+        "Activated": true
+    }
+}

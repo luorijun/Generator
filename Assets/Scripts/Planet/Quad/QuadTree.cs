@@ -33,12 +33,12 @@ namespace Game.Terrain
             return Root.Update().ToArray();
         }
 
-        public Mesh GetMesh()
+        public Mesh GetMesh(int Size)
         {
             var mesh = new Mesh();
 
             mesh.vertices = vertices;
-            mesh.triangles = triangles;
+            mesh.triangles = UpdateTriangles();
 
             mesh.RecalculateNormals();
             return mesh;
