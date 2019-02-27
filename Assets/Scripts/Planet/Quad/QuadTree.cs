@@ -28,11 +28,6 @@ namespace Game.Terrain
             triangles = UpdateTriangles();
         }
 
-        public int[] UpdateTriangles()
-        {
-            return Root.Update().ToArray();
-        }
-
         public Mesh GetMesh(int Size)
         {
             var mesh = new Mesh();
@@ -44,6 +39,10 @@ namespace Game.Terrain
             return mesh;
         }
 
+        private int[] UpdateTriangles()
+        {
+            return Root.Update().ToArray();
+        }
         private Vector3[] InitVertices()
         {
             var vertices = new Vector3[(int)Mathf.Pow(MaxSize, 2)];
