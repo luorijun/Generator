@@ -5,15 +5,11 @@ using UnityEngine;
 public class Tile: MonoBehaviour {
     public MeshFilter Filter;
     public MeshRenderer Renderer;
-    private NFace face;
 
     public const int RESOLUTION = 16;
 
     public float Size;
     public float SizePerCell;
-
-    public float Is;
-    public bool IsActive;
 
     public Mesh Mesh;
 
@@ -47,9 +43,10 @@ public class Tile: MonoBehaviour {
             }
         }
 
-        var mesh = new Mesh();
-        mesh.vertices = vertices;
-        mesh.triangles = triangles;
+        var mesh = new Mesh {
+            vertices = vertices,
+            triangles = triangles
+        };
 
         mesh.RecalculateNormals();
         return mesh;

@@ -10,9 +10,9 @@ namespace Generator.DataStructure {
 
         public int Level;
 
-        public QuadTree(int Level, Func<int, T> Init) {
+        public QuadTree(int Level, Func<QuadNode<T>, T> Init) {
             this.Level = Level;
-            Root = new QuadNode<T>(Init, 1, this);
+            Root = new QuadNode<T>(Init, 1, Level, QuadNode<T>.NodeMode.Full);
         }
 
         public void Traversing(

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 namespace Generator.DataStructure {
 
@@ -10,23 +7,29 @@ namespace Generator.DataStructure {
 
         public int Depth;
 
+        public enum NodeMode { Full, TopLeft, TopRight, BottomLeft, BottomRight }
+        public NodeMode Mode;
+
+        public QuadNode<T> Parent;
         // children
-        private bool HasChild;
+        private readonly bool HasChild;
 
         private QuadNode<T> TopLeftChild;
         private QuadNode<T> TopRightChild;
         private QuadNode<T> BottomLeftChild;
         private QuadNode<T> BottomRightChild;
 
-        public QuadNode(Func<int, T> Init, int Depth, QuadTree<T> Tree) {
-            Value = Init(Depth);
-            this.Depth = Depth;
+        public QuadNode(Func<QuadNode<T>, T> Init, int depth, int level, NodeMode mode, QuadNode<T> parent = null) {
+            Depth = depth;
+            Parent = parent;
+            Mode = mode;
 
-            if (Depth < Tree.Level) {
-                TopLeftChild = new QuadNode<T>(Init, Depth + 1, Tree);
-                TopRightChild = new QuadNode<T>(Init, Depth + 1, Tree);
-                BottomLeftChild = new QuadNode<T>(Init, Depth + 1, Tree);
-                BottomRightChild = new QuadNode<T>(Init, Depth + 1, Tree);
+            Value = Init(this);
+            if (Depth < level) {
+                TopLeftChild = new QuadNode<T>(Init, Depth + 1, level, NodeMode.TopLeft, this);
+                TopRightChild = new QuadNode<T>(Init, Depth + 1, level, NodeMode.TopRight, this);
+                BottomLeftChild = new QuadNode<T>(Init, Depth + 1, level, NodeMode.BottomLeft, this);
+                BottomRightChild = new QuadNode<T>(Init, Depth + 1, level, NodeMode.BottomRight, this);
 
                 HasChild = true;
             }

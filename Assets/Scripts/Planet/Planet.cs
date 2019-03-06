@@ -2,42 +2,43 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Planet : MonoBehaviour {
-    public NFace face;
+namespace Generator {
 
-    public int resolution;
+    public class Planet: MonoBehaviour {
 
-    private Face[] faces = new Face[6];
+        public NFace face;
 
-    void Start () {
-        faces[0] = new Face(transform, Vector3.up);
-        faces[1] = new Face(transform, Vector3.down);
-        faces[2] = new Face(transform, Vector3.left);
-        faces[3] = new Face(transform, Vector3.right);
-        faces[4] = new Face(transform, Vector3.forward);
-        faces[5] = new Face(transform, Vector3.back);
+        public int resolution;
 
-        UpdatePlanet();
-    }
-	
-	void Update () {
-		
-	}
+        private Face[] faces = new Face[6];
 
-    private void OnValidate()
-    {
-        UpdatePlanet();
-    }
+        private void Start() {
+            faces[0] = new Face(transform, Vector3.up);
+            faces[1] = new Face(transform, Vector3.down);
+            faces[2] = new Face(transform, Vector3.left);
+            faces[3] = new Face(transform, Vector3.right);
+            faces[4] = new Face(transform, Vector3.forward);
+            faces[5] = new Face(transform, Vector3.back);
 
-    private void UpdatePlanet()
-    {
-        resolution = Mathf.Max(3, resolution);
-        resolution = Mathf.Min(resolution, 241);
+            UpdatePlanet();
+        }
 
-        for (int i = 0; i < faces.Length; i++)
-        {
-            if (faces[i]!=null)
-                faces[i].CreateMesh(resolution);
+        private void Update() {
+
+        }
+
+        private void OnValidate() {
+            UpdatePlanet();
+        }
+
+        private void UpdatePlanet() {
+            resolution = Mathf.Max(3, resolution);
+            resolution = Mathf.Min(resolution, 241);
+
+            for (int i = 0; i < faces.Length; i++) {
+                if (faces[i] != null)
+                    faces[i].CreateMesh(resolution);
+            }
         }
     }
 }
