@@ -9,71 +9,20 @@ public class Tile: MonoBehaviour {
 
     public const int RESOLUTION = 16;
 
-    public int depth;
-    public float size;
-    public float sizePerCell;
-    public Vector3 center;
+    public float Size;
+    public float SizePerCell;
 
-    public bool isSub;
+    public float Is;
+    public bool IsActive;
 
-    // children
-    public bool HasChild;
+    public Mesh Mesh;
 
-    private Tile ChildTopLeft;
-    private Tile ChildTopRight;
-    private Tile ChildBottomLeft;
-    private Tile ChildBottomRight;
+    public Tile Init(float size) {
+        Size = size;
+        SizePerCell = Size / (RESOLUTION - 1);
 
-    void Start() {
-        if (depth < face.Level) {
-            ChildTopLeft = Instantiate(face.tile, transform.position, Quaternion.identity, transform).Init(face, depth + 1);
-            ChildTopRight = Instantiate(face.tile, transform.position + Vector3.right * size / 2, Quaternion.identity, transform).Init(face, depth + 1);
-            ChildBottomLeft = Instantiate(face.tile, transform.position + Vector3.forward * size / 2, Quaternion.identity, transform).Init(face, depth + 1);
-            ChildBottomRight = Instantiate(face.tile, transform.position + new Vector3(1, 0, 1) * size / 2, Quaternion.identity, transform).Init(face, depth + 1);
-            HasChild = true;
-        }
-        else {
-            Filter.mesh = CreateMesh();
-        }
-    }
-
-    public Tile Init(NFace face, int depth) {
-        this.face = face;
-        this.depth = depth;
-        UpdateData();
+        Mesh = CreateMesh();
         return this;
-    }
-
-    public void UpdateState() {
-        UpdateData();
-        UpdateMesh();
-
-        if (HasChild) {
-            ChildTopLeft.UpdateState();
-            ChildTopRight.UpdateState();
-            ChildBottomLeft.UpdateState();
-            ChildBottomRight.UpdateState();
-        }
-    }
-    private void UpdateData() {
-        size = face.Size / Mathf.Pow(2, depth - 1);
-        sizePerCell = size / (RESOLUTION - 1);
-        center = transform.position + new Vector3(1, 0, 1) * (size / 2);
-
-        if (HasChild) {
-            ChildTopRight.transform.localPosition = Vector3.right * size / 2;
-            ChildBottomLeft.transform.localPosition = Vector3.forward * size / 2;
-            ChildBottomRight.transform.localPosition = new Vector3(1, 0, 1) * size / 2;
-        }
-    }
-    private void UpdateMesh() {
-
-        isSub = face.ViewDistance < Vector3.Distance(Camera.main.transform.position, center) / size;
-
-        if (!HasChild) {
-            Debug.Log("depth: " + depth + ", create mesh");
-            Filter.mesh = CreateMesh();
-        }
     }
 
     private Mesh CreateMesh() {
@@ -85,7 +34,7 @@ public class Tile: MonoBehaviour {
             for (int x = 0; x < RESOLUTION; x++) {
                 var i = x + y * RESOLUTION;
 
-                vertices[i] = new Vector3(x * sizePerCell, 0, y * sizePerCell);
+                vertices[i] = new Vector3(x * SizePerCell - Size / 2, 0, y * SizePerCell - Size / 2);
                 if (x < RESOLUTION - 1 && y < RESOLUTION - 1) {
                     triangles[triIndex++] = i;
                     triangles[triIndex++] = i + RESOLUTION;
@@ -104,9 +53,5 @@ public class Tile: MonoBehaviour {
 
         mesh.RecalculateNormals();
         return mesh;
-    }
-
-    private void OnDrawGizmos() {
-        Gizmos.DrawSphere(center, 1);
     }
 }

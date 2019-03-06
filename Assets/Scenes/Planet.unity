@@ -172,6 +172,17 @@ Prefab:
       propertyPath: ViewDistance
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114986056551797810, guid: 1854335be1e08504e8c7d97616ff919a,
+        type: 2}
+      propertyPath: Tile
+      value: 
+      objectReference: {fileID: 114263361933072276, guid: 474a175df744ca448a9666e35d731652,
+        type: 2}
+    - target: {fileID: 114986056551797810, guid: 1854335be1e08504e8c7d97616ff919a,
+        type: 2}
+      propertyPath: VisitRate
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1854335be1e08504e8c7d97616ff919a, type: 2}
   m_IsPrefabAsset: 0
