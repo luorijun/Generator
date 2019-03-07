@@ -51,7 +51,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e17acc3ca33ac2549b9d544afd175d4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tile: {fileID: 114263361933072276, guid: 474a175df744ca448a9666e35d731652, type: 2}
-  Level: 0
-  Size: 0
-  ViewDistance: 0
+  Tile: {fileID: 114263361933072276, guid: 474a175df744ca448a9666e35d731652, type: 2}
+  FaceTo: {x: 0, y: 0, z: 0}
+  XAxis: {x: 0, y: 0, z: 0}
+  YAxis: {x: 0, y: 0, z: 0}
+  Level: 5
+  Size: 100
+  VisitRate: 1

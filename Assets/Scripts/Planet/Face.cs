@@ -8,9 +8,9 @@ public class Face
     GameObject gameObject;
 
     Transform parent;
-    Vector3 face;
+    public Vector3 face;
 
-    Vector3 axis1, axis2;
+    public Vector3 axis1, axis2;
 
     public Face(Transform parent, Vector3 face)
     {
