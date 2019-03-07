@@ -7,14 +7,14 @@ namespace Generator {
     public class Tile: MonoBehaviour {
         public MeshFilter Filter;
         public MeshRenderer Renderer;
-        public NFace Face;
+        public Face Face;
 
         public const int RESOLUTION = 32;
 
         public float Size;
         public float SizePerCell;
 
-        public Tile Init(float size, NFace face) {
+        public Tile Init(float size, Face face) {
             Face = face;
             Size = size;
             SizePerCell = Size / (RESOLUTION - 1);

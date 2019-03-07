@@ -1,68 +1,77 @@
-﻿using System.Collections;
+﻿using Generator.DataStructure;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Face
-{
+namespace Generator {
+    public class Face: MonoBehaviour {
+        public Tile Tile;
+        public Planet Planet;
 
-    GameObject gameObject;
+        public Vector3 FaceTo;
+        public Vector3 XAxis;
+        public Vector3 ZAxis;
 
-    Transform parent;
-    public Vector3 face;
+        public int Level;
+        public float Size;
+        public float VisitRate;
 
-    public Vector3 axis1, axis2;
+        private QuadTree<Tile> QuadTree;
 
-    public Face(Transform parent, Vector3 face)
-    {
-        this.parent = parent;
-        this.face = face;
-
-        gameObject = new GameObject(face.ToString(),
-            typeof(MeshFilter),
-            typeof(MeshRenderer));
-        gameObject.transform.parent = parent;
-        gameObject.GetComponent<MeshRenderer>().sharedMaterial = new Material(Shader.Find("Standard"));
-
-        axis1 = new Vector3(face.y, face.z, face.x);
-        axis2 = Vector3.Cross(face, axis1);
-    }
-
-    public void CreateMesh(int resolution)
-    {
-        var vertices = new Vector3[resolution * resolution];
-        var triangles = new int[(resolution - 1) * (resolution - 1) * 6];
-
-        var triIndex = 0;
-        for (int y = 0; y < resolution; y++)
-        {
-            for (int x = 0; x < resolution; x++)
-            {
-                var i = x + resolution * y;
-
-                var percent = new Vector2(x, y) / (resolution - 1);
-                var pointOnUnitCube = face + (percent.x - .5f) * 2 * axis1 + (percent.y - .5f) * 2 * axis2;
-                var pointOnUnitSphere = pointOnUnitCube.normalized;
-
-                vertices[i] = pointOnUnitSphere;
-
-                if (x < resolution - 1 && y < resolution - 1)
-                {
-                    triangles[triIndex++] = i;
-                    triangles[triIndex++] = i + resolution + 1;
-                    triangles[triIndex++] = i + resolution;
-
-                    triangles[triIndex++] = i;
-                    triangles[triIndex++] = i + 1;
-                    triangles[triIndex++] = i + resolution + 1;
-                }
-            }
+        private void Start() {
+            QuadTree = new QuadTree<Tile>(Level,
+                node => {
+                    var offset = new Vector3();
+                    var size = Size / Mathf.Pow(2, node.Depth - 1);
+                    switch (node.Mode) {
+                        case QuadNode<Tile>.NodeMode.TopLeft:
+                            offset = XAxis * -1 + ZAxis * 1;
+                            break;
+                        case QuadNode<Tile>.NodeMode.TopRight:
+                            offset = XAxis * 1 + ZAxis * 1;
+                            break;
+                        case QuadNode<Tile>.NodeMode.BottomLeft:
+                            offset = XAxis * -1 + ZAxis * -1;
+                            break;
+                        case QuadNode<Tile>.NodeMode.BottomRight:
+                            offset = XAxis * 1 + ZAxis * -1;
+                            break;
+                    }
+                    Tile tile = Instantiate(Tile,
+                        offset * (size / 2) + (
+                            node.Mode != QuadNode<Tile>.NodeMode.Full ?
+                            node.Parent.Value.transform.position :
+                            FaceTo * Planet.Radius),
+                        Quaternion.identity,
+                        transform)
+                            .Init(size, this);
+                    return tile;
+                });
         }
 
-        var mesh = gameObject.GetComponent<MeshFilter>().mesh;
-        mesh.Clear();
-        mesh.name = "Generate";
-        mesh.vertices = vertices;
-        mesh.triangles = triangles;
-        mesh.RecalculateNormals();
+        private void Update() {
+            QuadTree.Traversing(
+                node => VisitRate < Vector3.Distance(
+                            Camera.main.transform.position,
+                            node.Value.transform.position)
+                        / node.Value.Size,
+                node => node.Value.gameObject.SetActive(true),
+                node => node.Value.gameObject.SetActive(false));
+        }
+
+        public Face Init(Vector3 faceTo, int level, float radius, float visitRate, Planet planet, string name = "face") {
+            this.name = name;
+
+            FaceTo = faceTo;
+            Level = level;
+            Size = radius * 2;
+            VisitRate = visitRate;
+            Planet = planet;
+
+            XAxis = new Vector3(FaceTo.y, FaceTo.z, FaceTo.x);
+            ZAxis = Vector3.Cross(FaceTo, XAxis);
+            return this;
+        }
     }
 }

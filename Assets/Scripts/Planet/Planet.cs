@@ -3,42 +3,46 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Generator {
-
     public class Planet: MonoBehaviour {
+        public Face Face;
 
-        public NFace face;
+        public float Radius;
 
-        public int resolution;
+        public int Level;
+        public float VisitRate;
 
-        private Face[] faces = new Face[6];
+        private Face[] Faces;
 
         private void Start() {
-            faces[0] = new Face(transform, Vector3.up);
-            faces[1] = new Face(transform, Vector3.down);
-            faces[2] = new Face(transform, Vector3.left);
-            faces[3] = new Face(transform, Vector3.right);
-            faces[4] = new Face(transform, Vector3.forward);
-            faces[5] = new Face(transform, Vector3.back);
-
-            UpdatePlanet();
+            Faces = new[]{
+                Instantiate(Face,transform).Init(
+                    Vector3.up,
+                    Level,Radius,VisitRate,
+                    this,"Up"),
+                Instantiate(Face,transform).Init(
+                    Vector3.down,
+                    Level,Radius,VisitRate,
+                    this,"Down"),
+                Instantiate(Face,transform).Init(
+                    Vector3.left,
+                    Level,Radius,VisitRate,
+                    this,"Left"),
+                Instantiate(Face,transform).Init(
+                    Vector3.right,
+                    Level,Radius,VisitRate,
+                    this,"Right"),
+                Instantiate(Face,transform).Init(
+                    Vector3.forward,
+                    Level,Radius,VisitRate,
+                    this,"Forward"),
+                Instantiate(Face,transform).Init(
+                    Vector3.back,
+                    Level,Radius,VisitRate,
+                    this,"Back"),
+            };
         }
-
         private void Update() {
 
-        }
-
-        private void OnValidate() {
-            UpdatePlanet();
-        }
-
-        private void UpdatePlanet() {
-            resolution = Mathf.Max(3, resolution);
-            resolution = Mathf.Min(resolution, 241);
-
-            for (int i = 0; i < faces.Length; i++) {
-                if (faces[i] != null)
-                    faces[i].CreateMesh(resolution);
-            }
         }
     }
 }

@@ -34,5 +34,8 @@ namespace Generator.Utility {
             mesh.RecalculateNormals();
             return mesh;
         }
+
+        private static void GetData() {
+        }
     }
 }

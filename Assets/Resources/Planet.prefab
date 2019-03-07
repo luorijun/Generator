@@ -48,8 +48,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1099032612088768}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 818fa7b7840f00f4280dbe1721ce9bbd, type: 3}
+  m_Script: {fileID: 11500000, guid: 8d204ec720d06244ca4b6e5e73b5a00d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  face: {fileID: 0}
-  resolution: 16
+  Face: {fileID: 0}
+  Radius: 0
+  Level: 0
+  VisitRate: 0
