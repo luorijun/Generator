@@ -51,7 +51,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d204ec720d06244ca4b6e5e73b5a00d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Face: {fileID: 0}
-  Radius: 0
-  Level: 0
-  VisitRate: 0
+  Face: {fileID: 114986056551797810, guid: 1854335be1e08504e8c7d97616ff919a, type: 2}
+  Radius: 496
+  Level: 6
+  VisitRate: 1

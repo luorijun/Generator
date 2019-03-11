@@ -19,9 +19,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4351437382723794}
-  - component: {fileID: 114263361933072276}
   - component: {fileID: 33864584360576358}
   - component: {fileID: 23567441993268388}
+  - component: {fileID: 114263361933072276}
   m_Layer: 0
   m_Name: Tile
   m_TagString: Untagged
@@ -97,8 +97,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Filter: {fileID: 33864584360576358}
   Renderer: {fileID: 23567441993268388}
-  depth: 0
-  size: 0
-  sizePerCell: 0
-  center: {x: 0, y: 0, z: 0}
-  isSub: 0
+  Face: {fileID: 0}
+  Size: 0
+  SizePerCell: 0
