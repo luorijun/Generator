@@ -9,17 +9,17 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1099032612088768}
+  m_RootGameObject: {fileID: 1953803902743322}
   m_IsPrefabAsset: 1
---- !u!1 &1099032612088768
+--- !u!1 &1953803902743322
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4764865917484146}
-  - component: {fileID: 114144670356990460}
+  - component: {fileID: 4584696223475094}
+  - component: {fileID: 114345990695710474}
   m_Layer: 0
   m_Name: Planet
   m_TagString: Untagged
@@ -27,12 +27,12 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4764865917484146
+--- !u!4 &4584696223475094
 Transform:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1099032612088768}
+  m_GameObject: {fileID: 1953803902743322}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -40,18 +40,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114144670356990460
+--- !u!114 &114345990695710474
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1099032612088768}
+  m_GameObject: {fileID: 1953803902743322}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d204ec720d06244ca4b6e5e73b5a00d, type: 3}
+  m_Script: {fileID: 11500000, guid: cf036573b653112419deda3396c72464, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Face: {fileID: 114986056551797810, guid: 1854335be1e08504e8c7d97616ff919a, type: 2}
-  Radius: 496
-  Level: 6
-  VisitRate: 1
+  viewer: {fileID: 0}
+  mode: 0
+  chunkSize: 16
+  radius: 6371000
+  detail: 17
+  autoSet: 1
+  frequency: 0.000005
+  amplitude: 0.004
+  subdivisionRatio: 1
+  isNoise: 1

@@ -1,77 +1,57 @@
-﻿using Generator.DataStructure;
+﻿using LibNoise.Generator;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Generator {
+
+
     public class Face: MonoBehaviour {
-        public Tile Tile;
-        public Planet Planet;
 
-        public Vector3 FaceTo;
-        public Vector3 XAxis;
-        public Vector3 ZAxis;
+        public Material material;
 
-        public int Level;
-        public float Size;
-        public float VisitRate;
+        public Matrix4x4 matrix;
 
-        private QuadTree<Tile> QuadTree;
+        public float radius;
+        public float maxDepth;
+        public Perlin perlin;
+        public float frequency;
+        public float amplitude;
 
-        private void Start() {
-            QuadTree = new QuadTree<Tile>(Level,
-                node => {
-                    var offset = new Vector3();
-                    var size = Size / Mathf.Pow(2, node.Depth - 1);
-                    switch (node.Mode) {
-                        case QuadNode<Tile>.NodeMode.TopLeft:
-                            offset = XAxis * -1 + ZAxis * 1;
-                            break;
-                        case QuadNode<Tile>.NodeMode.TopRight:
-                            offset = XAxis * 1 + ZAxis * 1;
-                            break;
-                        case QuadNode<Tile>.NodeMode.BottomLeft:
-                            offset = XAxis * -1 + ZAxis * -1;
-                            break;
-                        case QuadNode<Tile>.NodeMode.BottomRight:
-                            offset = XAxis * 1 + ZAxis * -1;
-                            break;
-                    }
-                    Tile tile = Instantiate(Tile,
-                        offset * (size / 2) + (
-                            node.Mode != QuadNode<Tile>.NodeMode.Full ?
-                            node.Parent.Value.transform.position :
-                            FaceTo * Planet.Radius),
-                        Quaternion.identity,
-                        transform)
-                            .Init(size, this);
-                    return tile;
-                });
+        public bool isNoise;
+
+        private Chunk root;
+        private Sphere planet;
+
+        public Face Init(Matrix4x4 matrix, Sphere planet) {
+            material = planet.material;
+            this.matrix = matrix;
+            radius = planet.radius;
+            maxDepth = planet.detail;
+            perlin = planet.perlin;
+            frequency = planet.frequency;
+            amplitude = planet.amplitude;
+
+            isNoise = planet.isNoise;
+
+            root = Chunk.New(
+                planet.radius*2, 1,
+                Vector3.up*planet.radius,
+                null, this, transform);
+            this.planet = planet;
+            return this; }
+
+        public void UpdateState() {
+            root.UpdateState(planet.viewer, planet.subdivisionRatio);
         }
 
-        private void Update() {
-            QuadTree.Traversing(
-                node => VisitRate < Vector3.Distance(
-                            Camera.main.transform.position,
-                            node.Value.transform.position)
-                        / node.Value.Size,
-                node => node.Value.gameObject.SetActive(true),
-                node => node.Value.gameObject.SetActive(false));
-        }
-
-        public Face Init(Vector3 faceTo, int level, float radius, float visitRate, Planet planet, string name = "face") {
-            this.name = name;
-
-            FaceTo = faceTo;
-            Level = level;
-            Size = radius * 2;
-            VisitRate = visitRate;
-            Planet = planet;
-
-            XAxis = new Vector3(FaceTo.y, FaceTo.z, FaceTo.x);
-            ZAxis = Vector3.Cross(FaceTo, XAxis);
-            return this;
+        public static Face New(Matrix4x4 matrix, Sphere parent) {
+            var face = new GameObject().AddComponent<Face>();
+            face.transform.SetParent(parent.transform);
+            face.name = "face";
+            return face.Init(matrix, parent);
         }
     }
 }
+
