@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Generator {
+
     public class Tile: MonoBehaviour {
         public MeshFilter Filter;
         public MeshRenderer Renderer;

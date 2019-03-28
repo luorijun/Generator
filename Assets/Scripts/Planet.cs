@@ -11,35 +11,33 @@ namespace Generator {
         public int Level;
         public float VisitRate;
 
-        private Face[] Faces;
+        private Dictionary<string, Face> Faces;
 
         private void Start() {
-            Faces = new[]{
-                Instantiate(Face,transform).Init(
+            Faces.Add("up", Instantiate(Face, transform).Init(
                     Vector3.up,
-                    Level,Radius,VisitRate,
-                    this,"Up"),
-                Instantiate(Face,transform).Init(
+                    Level, Radius, VisitRate,
+                    this, "Up"));
+            Faces.Add("down", Instantiate(Face, transform).Init(
                     Vector3.down,
-                    Level,Radius,VisitRate,
-                    this,"Down"),
-                Instantiate(Face,transform).Init(
+                    Level, Radius, VisitRate,
+                    this, "Down"));
+            Faces.Add("left", Instantiate(Face, transform).Init(
                     Vector3.left,
-                    Level,Radius,VisitRate,
-                    this,"Left"),
-                Instantiate(Face,transform).Init(
+                    Level, Radius, VisitRate,
+                    this, "Left"));
+            Faces.Add("right", Instantiate(Face, transform).Init(
                     Vector3.right,
-                    Level,Radius,VisitRate,
-                    this,"Right"),
-                Instantiate(Face,transform).Init(
+                    Level, Radius, VisitRate,
+                    this, "Right"));
+            Faces.Add("forward", Instantiate(Face, transform).Init(
                     Vector3.forward,
-                    Level,Radius,VisitRate,
-                    this,"Forward"),
-                Instantiate(Face,transform).Init(
+                    Level, Radius, VisitRate,
+                    this, "Forward"));
+            Faces.Add("back", Instantiate(Face, transform).Init(
                     Vector3.back,
-                    Level,Radius,VisitRate,
-                    this,"Back"),
-            };
+                    Level, Radius, VisitRate,
+                    this, "Back"));
         }
         private void Update() {
 

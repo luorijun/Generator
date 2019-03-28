@@ -7,14 +7,9 @@ namespace LibNoise.Generator
     /// </summary>
     public class Perlin : ModuleBase
     {
-        #region Fields
 
-        private double _frequency = 1.0;
-        private double _lacunarity = 2.0;
-        private QualityMode _quality = QualityMode.Medium;
+        #region Fields
         private int _octaveCount = 6;
-        private double _persistence = 0.5;
-        private int _seed;
 
         #endregion
 
@@ -57,30 +52,18 @@ namespace LibNoise.Generator
         /// Gets or sets the frequency of the first octave.
         /// <para>Frequency represents the number of cycles per unit length that a generation module outputs.</para>
         /// </summary>
-        public double Frequency
-        {
-            get { return _frequency; }
-            set { _frequency = value; }
-        }
+        public double Frequency { get; set; } = 1.0;
 
         /// <summary>
         /// Gets or sets the lacunarity of the perlin noise.
         /// <para>A multiplier that determines how quickly the frequency increases for each successive octave.</para>
         /// </summary>
-        public double Lacunarity
-        {
-            get { return _lacunarity; }
-            set { _lacunarity = value; }
-        }
+        public double Lacunarity { get; set; } = 2.0;
 
         /// <summary>
         /// Gets or sets the quality of the perlin noise.
         /// </summary>
-        public QualityMode Quality
-        {
-            get { return _quality; }
-            set { _quality = value; }
-        }
+        public QualityMode Quality { get; set; } = QualityMode.Medium;
 
         /// <summary>
         /// Gets or sets the number of octaves of the perlin noise.
@@ -97,20 +80,12 @@ namespace LibNoise.Generator
         /// Gets or sets the persistence of the perlin noise. 
         /// <para>A multiplier that determines how quickly the amplitudes diminish for each successive octave.</para>
         /// </summary>
-        public double Persistence
-        {
-            get { return _persistence; }
-            set { _persistence = value; }
-        }
+        public double Persistence { get; set; } = 0.5;
 
         /// <summary>
         /// Gets or sets the seed of the perlin noise.
         /// </summary>
-        public int Seed
-        {
-            get { return _seed; }
-            set { _seed = value; }
-        }
+        public int Seed { get; set; }
 
         #endregion
 
@@ -128,21 +103,21 @@ namespace LibNoise.Generator
             var value       = 0.0;
             var amplitude   = 1.0;
 
-            x *= _frequency;
-            y *= _frequency;
-            z *= _frequency;
+            x *= Frequency;
+            y *= Frequency;
+            z *= Frequency;
             for (var i = 0; i < _octaveCount; i++)
             {
                 var nx = Utils.MakeInt32Range(x);
                 var ny = Utils.MakeInt32Range(y);
                 var nz = Utils.MakeInt32Range(z);
-                var seed = (_seed + i) & 0xffffffff;
-                var signal = Utils.GradientCoherentNoise3D(nx, ny, nz, seed, _quality);
+                var seed = (Seed + i) & 0xffffffff;
+                var signal = Utils.GradientCoherentNoise3D(nx, ny, nz, seed, Quality);
                 value += signal * amplitude;
-                x *= _lacunarity;
-                y *= _lacunarity;
-                z *= _lacunarity;
-                amplitude *= _persistence;
+                x *= Lacunarity;
+                y *= Lacunarity;
+                z *= Lacunarity;
+                amplitude *= Persistence;
             }
             return value;
         }
